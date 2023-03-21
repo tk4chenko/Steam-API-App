@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xe4-Bp-VUm">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Search-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="Steam_API" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" placeholder="Search Steam player" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LUa-cg-cwx">
+                                <rect key="frame" x="20" y="394" width="350" height="56"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <textInputTraits key="textInputTraits" smartDashesType="no"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
+                            </searchBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LUa-cg-cwx" secondAttribute="trailing" constant="20" id="Jqf-0Y-LTN"/>
+                            <constraint firstItem="LUa-cg-cwx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="N61-Or-NJQ"/>
+                            <constraint firstItem="LUa-cg-cwx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="aQh-xu-T9C"/>
+                            <constraint firstItem="LUa-cg-cwx" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kL6-hD-Dyb"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass.circle" catalog="system" selectedImage="magnifyingglass.circle.fill" id="yiI-nD-hgZ"/>
+                    <navigationItem key="navigationItem" id="8Il-Kq-UIm"/>
+                    <connections>
+                        <outlet property="searchBar" destination="LUa-cg-cwx" id="GoU-Jd-4dp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1040" y="3.5545023696682461"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="ub9-ua-gA4">
+            <objects>
+                <tabBarController id="xe4-Bp-VUm" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KAS-WY-rj0">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="3JS-0p-RS8"/>
+                        <segue destination="CjE-wl-wyY" kind="relationship" relationship="viewControllers" id="ye3-iq-KRt"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vmb-DG-bka" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-771" y="4"/>
+        </scene>
+        <!--Favourites-->
+        <scene sceneID="MNg-1X-qrf">
+            <objects>
+                <viewController id="CjE-wl-wyY" customClass="FavouritesViewController" customModule="Steam_API" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RER-Tz-83b">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JdX-p7-yCe">
+                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="u54-iD-E6O"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JdX-p7-yCe" firstAttribute="top" secondItem="u54-iD-E6O" secondAttribute="top" id="Ble-vg-wQS"/>
+                            <constraint firstItem="JdX-p7-yCe" firstAttribute="leading" secondItem="u54-iD-E6O" secondAttribute="leading" id="X6Z-8A-G2g"/>
+                            <constraint firstItem="JdX-p7-yCe" firstAttribute="trailing" secondItem="u54-iD-E6O" secondAttribute="trailing" id="dZg-Ip-Vua"/>
+                            <constraint firstAttribute="bottom" secondItem="JdX-p7-yCe" secondAttribute="bottom" id="wb8-4w-012"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Favourites" image="star.circle" catalog="system" selectedImage="star.circle.fill" id="OSj-2T-TJ8"/>
+                    <connections>
+                        <outlet property="favouritesTableView" destination="JdX-p7-yCe" id="g7x-Qk-lLC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SPn-ih-zJM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="27.69230769230769" y="746.44549763033172"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="magnifyingglass.circle" catalog="system" width="128" height="123"/>
+        <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="star.circle" catalog="system" width="128" height="123"/>
+        <image name="star.circle.fill" catalog="system" width="128" height="123"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
