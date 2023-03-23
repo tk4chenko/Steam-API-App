@@ -16,9 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search Steam player" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LUa-cg-cwx">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Steam player" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LUa-cg-cwx">
                                 <rect key="frame" x="20" y="394" width="350" height="56"/>
-                                <color key="backgroundColor" systemColor="systemYellowColor"/>
                                 <textInputTraits key="textInputTraits" smartDashesType="no"/>
                                 <scopeButtonTitles>
                                     <string>Title</string>
@@ -27,7 +26,7 @@
                             </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LUa-cg-cwx" secondAttribute="trailing" constant="20" id="Jqf-0Y-LTN"/>
                             <constraint firstItem="LUa-cg-cwx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="N61-Or-NJQ"/>
@@ -43,7 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1040" y="3.5545023696682461"/>
+            <point key="canvasLocation" x="1042" y="-200"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ub9-ua-gA4">
@@ -64,7 +63,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vmb-DG-bka" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-771" y="4"/>
+            <point key="canvasLocation" x="157" y="136"/>
         </scene>
         <!--Favourites-->
         <scene sceneID="MNg-1X-qrf">
@@ -95,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SPn-ih-zJM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="27.69230769230769" y="746.44549763033172"/>
+            <point key="canvasLocation" x="1042" y="494"/>
         </scene>
     </scenes>
     <resources>
@@ -105,9 +104,6 @@
         <image name="star.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
