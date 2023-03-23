@@ -47,8 +47,8 @@ final class SearchViewController: UIViewController {
         })
     }
     
-    func addAllert() {
-        let dialogMessage = UIAlertController(title: "Error", message: "No Internet connection", preferredStyle: .alert)
+    func addAllert(title: String, message: String) {
+        let dialogMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         dialogMessage.view.tintColor = .red
         dialogMessage.addAction(cancel)
@@ -67,7 +67,7 @@ extension SearchViewController: UISearchBarDelegate {
                 self.popUp?.delegate = self
                 self.animateIn()
             case .failure(_):
-                self.addAllert()
+                self.addAllert(title: "Error", message: "No Internet connection.")
             }
             searchBar.text = ""
             self.view.endEditing(true)

@@ -79,7 +79,6 @@ final class PopUpView: UIView {
             self.avatarImageView.sd_imageIndicator = SDWebImageActivityIndicator.white
             self.avatarImageView.sd_setImage(with: url, completed: nil)
             checkIsFavorite()
-            addButtonsActions()
         } else {
             isSuccessed = false
             usernameLabel.text = "There is no such player."
@@ -87,6 +86,7 @@ final class PopUpView: UIView {
             openWebViewButton.isHidden = true
             addToFavouritesButton.isHidden = true
         }
+        addButtonsActions()
     }
     
     @objc private func buttonAction(_ sender: UIButton) {
@@ -125,12 +125,13 @@ extension PopUpView: UITextFieldDelegate {
 extension PopUpView {
     private func setupConstraints() {
         self.addSubview(mainView)
-        mainView.addSubviews([avatarImageView, usernameLabel, closedButton, addToFavouritesButton, openWebViewButton, commentTextField])
         var heightConstant: CGFloat = 0
         if isSuccessed {
             heightConstant = 240
+            mainView.addSubviews([avatarImageView, usernameLabel, closedButton, addToFavouritesButton, openWebViewButton, commentTextField])
         } else {
             heightConstant = 80
+            mainView.addSubviews([avatarImageView, usernameLabel, closedButton])
         }
         let selfConstraints = [
             self.widthAnchor.constraint(equalToConstant: 300),
@@ -179,13 +180,15 @@ extension PopUpView {
             closedButton.widthAnchor.constraint(equalToConstant: 30),
             closedButton.heightAnchor.constraint(equalToConstant: 30),
         ]
+        NSLayoutConstraint.activate(selfConstraints)
         NSLayoutConstraint.activate(mainViewConstraints)
         NSLayoutConstraint.activate(avatarImageViewConstraints)
-        NSLayoutConstraint.activate(commentTextFieldConstraints)
-        NSLayoutConstraint.activate(addToFavouritesButtonConstraints)
-        NSLayoutConstraint.activate(openWebViewButtonConstraints)
         NSLayoutConstraint.activate(usernameLabelConstraints)
         NSLayoutConstraint.activate(closedButtonConstraints)
-        NSLayoutConstraint.activate(selfConstraints)
+        if isSuccessed {
+            NSLayoutConstraint.activate(commentTextFieldConstraints)
+            NSLayoutConstraint.activate(addToFavouritesButtonConstraints)
+            NSLayoutConstraint.activate(openWebViewButtonConstraints)
+        }
     }
 }
