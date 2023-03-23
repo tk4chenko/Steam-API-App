@@ -9,6 +9,8 @@ import UIKit
 
 final class FavouritesViewController: UIViewController {
     
+    // MARK: Properties
+    
     private lazy var favouritesTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,10 +20,19 @@ final class FavouritesViewController: UIViewController {
     
     let realmManager = RealmManager.shared
     
+    // MARK: Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        favouritesTableView.reloadData()
+    }
+    
+    // MARK: Private Methods
     
     private func setupTableView() {
         view.addSubview(favouritesTableView)
@@ -29,11 +40,6 @@ final class FavouritesViewController: UIViewController {
         favouritesTableView.dataSource = self
         favouritesTableView.delegate = self
         favouritesTableView.register(FavouriteTableViewCell.self, forCellReuseIdentifier: FavouriteTableViewCell.identifier)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        favouritesTableView.reloadData()
     }
     
     private func presentModal(_ indexPath: IndexPath) {
@@ -52,11 +58,15 @@ final class FavouritesViewController: UIViewController {
     }
 }
 
+// MARK: - ReloadDelegate
+
 extension FavouritesViewController: ReloadDelegate {
     func reloadTableView() {
         favouritesTableView.reloadData()
     }
 }
+
+// MARK: - UITableViewDataSource
 
 extension FavouritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -70,6 +80,8 @@ extension FavouritesViewController: UITableViewDataSource {
     }
     
 }
+
+// MARK: - UITableViewDelegate
 
 extension FavouritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

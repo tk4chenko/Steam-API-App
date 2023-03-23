@@ -13,6 +13,8 @@ protocol ReloadDelegate: AnyObject {
 
 final class EditingViewController: UIViewController {
     
+    // MARK: Properties
+    
     var player: PlayerObject?
     
     weak var delegate: ReloadDelegate?
@@ -27,6 +29,8 @@ final class EditingViewController: UIViewController {
         textView.textColor = .black
         return textView
     }()
+    
+    // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,14 +43,9 @@ final class EditingViewController: UIViewController {
         setupConstraints()
     }
     
-    private func setupNavBar() {
-        title = "Edit message"
-        let edit = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
-        edit.tintColor = .systemIndigo
-        navigationItem.rightBarButtonItem = edit
-    }
+    // MARK: Actions
     
-    @objc func editButtonTapped() {
+    @objc private func editButtonTapped() {
         let newComment = commentTextView.text ?? ""
         guard let player = self.player else { return }
         RealmManager.shared.changeComment(player, newComment)
@@ -54,6 +53,14 @@ final class EditingViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    // MARK: Setup
+    
+    private func setupNavBar() {
+        title = "Edit message"
+        let edit = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+        edit.tintColor = .systemIndigo
+        navigationItem.rightBarButtonItem = edit
+    }
     private func setupConstraints() {
         view.addSubview(commentTextView)
         NSLayoutConstraint.activate([

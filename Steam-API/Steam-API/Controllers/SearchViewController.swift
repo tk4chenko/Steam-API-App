@@ -9,16 +9,26 @@ import UIKit
 
 final class SearchViewController: UIViewController {
     
-    private let networkManager: NetworkManagerProtocol = NetworkManager()
+    // MARK: Properties
+    
+    private let networkManager: NetworkManagerProtocol = {
+        NetworkManager()
+    }()
+    
+    private var popUp: PopUpView?
+    
+    // MARK: Outlets
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    private var popUp: PopUpView?
+    // MARK: Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchBar()
     }
+    
+    // MARK: Private Methods
     
     private func setupSearchBar() {
         searchBar.delegate = self
@@ -37,24 +47,17 @@ final class SearchViewController: UIViewController {
         }
     }
     
-    func animateOut() {
-        guard let popUp = self.popUp else { return }
-        UIView.animate(withDuration: 0.3, animations: {
-            popUp.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            popUp.alpha = 0
-        }, completion: { _ in
-            popUp.removeFromSuperview()
-        })
-    }
-    
-    func addAllert(title: String, message: String) {
+    private func addAllert(title: String, message: String) {
         let dialogMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         dialogMessage.view.tintColor = .red
         dialogMessage.addAction(cancel)
         self.present(dialogMessage, animated: true, completion: nil)
     }
+    
 }
+
+// MARK: - UISearchBarDelegate
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -75,9 +78,20 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - PopViewDelegate
+
 extension SearchViewController: PopViewDelegate {
     func presentWebView(_ url: URL) {
         let viewController = WebViewController(with: url)
         present(viewController, animated: true)
+    }
+    func animateOut() {
+        guard let popUp = self.popUp else { return }
+        UIView.animate(withDuration: 0.3, animations: {
+            popUp.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            popUp.alpha = 0
+        }, completion: { _ in
+            popUp.removeFromSuperview()
+        })
     }
 }

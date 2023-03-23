@@ -10,6 +10,8 @@ import WebKit
 
 final class WebViewController: UIViewController, WKNavigationDelegate {
     
+    // MARK: Properties
+    
     private let webView: WKWebView = {
         let preferenses = WKWebpagePreferences()
         preferenses.allowsContentJavaScript = true
@@ -19,6 +21,8 @@ final class WebViewController: UIViewController, WKNavigationDelegate {
         return webView
     }()
     
+    // MARK: Initializers
+    
     init(with url: URL) {
         super.init(nibName: nil, bundle: nil)
         self.webView.load(URLRequest(url: url))
@@ -27,6 +31,8 @@ final class WebViewController: UIViewController, WKNavigationDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

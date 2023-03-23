@@ -15,6 +15,8 @@ protocol PopViewDelegate: AnyObject {
 
 final class PopUpView: UIView {
     
+    // MARK: Properties
+    
     weak var delegate: PopViewDelegate?
     
     var isSuccessed = false {
@@ -28,6 +30,8 @@ final class PopUpView: UIView {
     
     private var player: Steam.DataClass.Player?
     
+    // MARK: UI Elements
+    
     private lazy var usernameLabel = createUsernameLabel()
     private lazy var commentTextField = createCommentTextField()
     private lazy var mainView = createMainView()
@@ -35,6 +39,8 @@ final class PopUpView: UIView {
     private lazy var addToFavouritesButton = createAddToFavouritesButton()
     private lazy var openWebViewButton = createOpenWebViewButton()
     private lazy var avatarImageView = createAvatarImageView()
+    
+    // MARK: Initialization
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -45,6 +51,8 @@ final class PopUpView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: Lifecycle
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -59,16 +67,7 @@ final class PopUpView: UIView {
         addToFavouritesButton.setTitle("Remove from favorites", for: .selected)
     }
     
-    private func checkIsFavorite() {
-        for player in realmManager.favourites {
-            if player.id == self.player?.id {
-                addToFavouritesButton.isSelected = true
-                return
-            } else {
-                addToFavouritesButton.isSelected = false
-            }
-        }
-    }
+    // MARK: Configuration
     
     func configure(_ player: Steam.DataClass.Player?) {
         if let myPlayer = player {
@@ -88,6 +87,21 @@ final class PopUpView: UIView {
         }
         addButtonsActions()
     }
+    
+    // MARK: Private methods
+    
+    private func checkIsFavorite() {
+        for player in realmManager.favourites {
+            if player.id == self.player?.id {
+                addToFavouritesButton.isSelected = true
+                return
+            } else {
+                addToFavouritesButton.isSelected = false
+            }
+        }
+    }
+    
+    // MARK: Button Actions
     
     @objc private func buttonAction(_ sender: UIButton) {
         delegate?.animateOut()
@@ -115,12 +129,16 @@ final class PopUpView: UIView {
     }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension PopUpView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.endEditing(true)
         return false
     }
 }
+
+// MARK: - Setup constraints
 
 extension PopUpView {
     private func setupConstraints() {

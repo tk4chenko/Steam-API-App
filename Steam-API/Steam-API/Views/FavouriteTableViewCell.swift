@@ -10,7 +10,11 @@ import SDWebImage
 
 final class FavouriteTableViewCell: UITableViewCell {
     
+    // MARK: Properties
+    
     static let identifier = "FavouriteTableViewCell"
+    
+    // MARK: UI Elements
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -40,10 +44,14 @@ final class FavouriteTableViewCell: UITableViewCell {
         return label
     }()
     
+    // MARK: Lifecycle
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         setupConstraints()
     }
+    
+    // MARK: Configuration
     
     func configureCell(_ player: PlayerObject) {
         usernameLabel.text = player.username
@@ -56,6 +64,8 @@ final class FavouriteTableViewCell: UITableViewCell {
         self.avatarImageView.sd_imageIndicator = SDWebImageActivityIndicator.white
         self.avatarImageView.sd_setImage(with: url, completed: nil)
     }
+    
+    // MARK: Setup constraints
     
     private func setupConstraints() {
         addSubview(avatarImageView)

@@ -10,7 +10,11 @@ import RealmSwift
 
 final class RealmManager {
     
+    // MARK: Singleton
+        
     static let shared = RealmManager()
+        
+    // MARK: Properties
     
     let realm = try! Realm()
     
@@ -18,7 +22,11 @@ final class RealmManager {
         return realm.objects(PlayerObject.self)
     }
     
+    // MARK: Initializer
+    
     private init() {}
+    
+    // MARK: Public Methods
     
     func save(_ player: Steam.DataClass.Player) {
         let playerObject = PlayerObject()
