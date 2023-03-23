@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
     
     private let networkManager: NetworkManagerProtocol = NetworkManager()
     
@@ -17,21 +17,16 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupGradient()
-        searchBar.delegate = self
+        setupSearchBar()
     }
     
-    private func setupGradient() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [UIColor.darkBlue.cgColor, UIColor.lightBlue.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        view.layer.insertSublayer(gradientLayer, at: 0)
+    private func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.searchTextField.backgroundColor = UIColor.systemBackground
     }
     
     private func animateIn() {
-        guard let popUp = self.popUp else { return}
+        guard let popUp = self.popUp else { return }
         self.view.addSubview(popUp)
         popUp.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         popUp.alpha = 0
@@ -43,7 +38,7 @@ class SearchViewController: UIViewController {
     }
     
     func animateOut() {
-        guard let popUp = self.popUp else { return}
+        guard let popUp = self.popUp else { return }
         UIView.animate(withDuration: 0.3, animations: {
             popUp.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             popUp.alpha = 0
@@ -52,18 +47,30 @@ class SearchViewController: UIViewController {
         })
     }
     
-
+    func addAllert() {
+        let dialogMessage = UIAlertController(title: "Error", message: "No Internet connection", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        dialogMessage.view.tintColor = .red
+        dialogMessage.addAction(cancel)
+        self.present(dialogMessage, animated: true, completion: nil)
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let nickname = searchBar.text else { return }
-        networkManager.fetchData(nickname) { player in
-            self.popUp = PopUpView()
-            self.popUp?.delegate = self
-            self.popUp?.configure(player)
-            self.animateIn()
+        networkManager.fetchData(nickname) { result in
+            switch result {
+            case .success(let value):
+                self.popUp = PopUpView()
+                self.popUp?.configure(value)
+                self.popUp?.delegate = self
+                self.animateIn()
+            case .failure(_):
+                self.addAllert()
+            }
             searchBar.text = ""
+            self.view.endEditing(true)
         }
     }
 }

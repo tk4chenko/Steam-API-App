@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search-->
+        <!--Search View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="Steam_API" customModuleProvider="target" sceneMemberID="viewController">
@@ -34,7 +34,7 @@
                             <constraint firstItem="LUa-cg-cwx" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kL6-hD-Dyb"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass.circle" catalog="system" selectedImage="magnifyingglass.circle.fill" id="yiI-nD-hgZ"/>
+                    <tabBarItem key="tabBarItem" selectedImage="magnifyingglass.circle.fill" catalog="system" systemItem="search" id="yiI-nD-hgZ"/>
                     <navigationItem key="navigationItem" id="8Il-Kq-UIm"/>
                     <connections>
                         <outlet property="searchBar" destination="LUa-cg-cwx" id="GoU-Jd-4dp"/>
@@ -53,57 +53,66 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" systemColor="systemIndigoColor"/>
+                        <tabBarAppearance key="standardAppearance"/>
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="3JS-0p-RS8"/>
-                        <segue destination="CjE-wl-wyY" kind="relationship" relationship="viewControllers" id="ye3-iq-KRt"/>
+                        <segue destination="7Nj-WX-WMM" kind="relationship" relationship="viewControllers" id="dSA-e6-d2m"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vmb-DG-bka" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="157" y="136"/>
         </scene>
-        <!--Favourites-->
+        <!--Search-->
         <scene sceneID="MNg-1X-qrf">
             <objects>
                 <viewController id="CjE-wl-wyY" customClass="FavouritesViewController" customModule="Steam_API" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RER-Tz-83b">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JdX-p7-yCe">
-                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="u54-iD-E6O"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="JdX-p7-yCe" firstAttribute="top" secondItem="u54-iD-E6O" secondAttribute="top" id="Ble-vg-wQS"/>
-                            <constraint firstItem="JdX-p7-yCe" firstAttribute="leading" secondItem="u54-iD-E6O" secondAttribute="leading" id="X6Z-8A-G2g"/>
-                            <constraint firstItem="JdX-p7-yCe" firstAttribute="trailing" secondItem="u54-iD-E6O" secondAttribute="trailing" id="dZg-Ip-Vua"/>
-                            <constraint firstAttribute="bottom" secondItem="JdX-p7-yCe" secondAttribute="bottom" id="wb8-4w-012"/>
-                        </constraints>
+                        <color key="tintColor" systemColor="labelColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Favourites" image="star.circle" catalog="system" selectedImage="star.circle.fill" id="OSj-2T-TJ8"/>
-                    <connections>
-                        <outlet property="favouritesTableView" destination="JdX-p7-yCe" id="g7x-Qk-lLC"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Search" id="4Mq-Kn-gDd"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SPn-ih-zJM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1042" y="494"/>
+            <point key="canvasLocation" x="1852" y="493"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0kU-H2-IWI">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Nj-WX-WMM" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" selectedImage="star.circle.fill" catalog="system" systemItem="favorites" id="OSj-2T-TJ8"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="nuN-Pc-qHD">
+                        <rect key="frame" x="0.0" y="47" width="390" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="CjE-wl-wyY" kind="relationship" relationship="rootViewController" id="0Z7-1k-MLc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KLf-W3-71X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1042" y="493"/>
         </scene>
     </scenes>
     <resources>
-        <image name="magnifyingglass.circle" catalog="system" width="128" height="123"/>
         <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="star.circle" catalog="system" width="128" height="123"/>
         <image name="star.circle.fill" catalog="system" width="128" height="123"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

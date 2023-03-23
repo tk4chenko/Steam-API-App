@@ -8,11 +8,11 @@
 import UIKit
 import SDWebImage
 
-class FavouriteTableViewCell: UICollectionViewCell {
+final class FavouriteTableViewCell: UITableViewCell {
     
-    static var identifier = "FavouriteTableViewCell"
+    static let identifier = "FavouriteTableViewCell"
     
-    lazy var avatarImageView: UIImageView = {
+    private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "person.fill")
         imageView.tintColor = .systemIndigo
@@ -20,78 +20,61 @@ class FavouriteTableViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    lazy var mainView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addBlur(.systemThinMaterialDark)
-        return view
-    }()
-    
-    lazy var usernameLabel: UILabel = {
+    private let usernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textAlignment = .left
-        label.textColor = .white
+        label.textColor = .tintColor
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return label
     }()
     
-    lazy var commentLabel: UILabel = {
+    private let commentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textAlignment = .left
-        label.textColor = .white
+        label.textColor = .tintColor
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return label
     }()
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-    
-    func configureCell(_ player: PlayerObject) {
-        usernameLabel.text = player.username
-        commentLabel.text = player.comment ?? ""
-        guard let url = URL(string: player.avatar ?? "") else { return }
-        self.avatarImageView.sd_imageIndicator = SDWebImageActivityIndicator.white
-        self.avatarImageView.sd_setImage(with: url, completed: nil)
-    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         setupConstraints()
     }
     
+    func configureCell(_ player: PlayerObject) {
+        usernameLabel.text = player.username
+        if player.comment?.count == 0 {
+            commentLabel.text = "No message."
+        } else {
+            commentLabel.text = player.comment
+        }
+        guard let url = URL(string: player.avatar ?? "") else { return }
+        self.avatarImageView.sd_imageIndicator = SDWebImageActivityIndicator.white
+        self.avatarImageView.sd_setImage(with: url, completed: nil)
+    }
+    
     private func setupConstraints() {
-        addSubview(mainView)
-        mainView.addSubview(avatarImageView)
-        mainView.addSubview(usernameLabel)
-        mainView.addSubview(commentLabel)
+        addSubview(avatarImageView)
+        addSubview(usernameLabel)
+        addSubview(commentLabel)
         NSLayoutConstraint.activate([
-            mainView.topAnchor.constraint(equalTo: topAnchor),
-            mainView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            mainView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            mainView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            avatarImageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
-            avatarImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
             avatarImageView.widthAnchor.constraint(equalToConstant: 40),
             avatarImageView.heightAnchor.constraint(equalToConstant: 40),
         
-            usernameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
-            usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 12),
-            usernameLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor),
+            usernameLabel.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
+            usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 10),
+            usernameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             
-            commentLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 12),
-            commentLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
-            commentLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
-            commentLabel.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20)
+            commentLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
+            commentLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
+            commentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            commentLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
-
 }

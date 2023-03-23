@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, WKNavigationDelegate {
+final class WebViewController: UIViewController, WKNavigationDelegate {
     
     private let webView: WKWebView = {
         let preferenses = WKWebpagePreferences()

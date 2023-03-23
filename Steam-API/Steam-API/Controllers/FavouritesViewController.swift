@@ -6,37 +6,84 @@
 //
 
 import UIKit
-import RealmSwift
 
-class FavouritesViewController: UIViewController {
+final class FavouritesViewController: UIViewController {
     
-    let realm = try! Realm()
-    var favourites: Results<PlayerObject>!
-
-    @IBOutlet weak var favouritesTableView: UITableView!
+    private lazy var favouritesTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .singleLine
+        return tableView
+    }()
+    
+    let realmManager = RealmManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
+    }
+    
+    private func setupTableView() {
+        view.addSubview(favouritesTableView)
+        favouritesTableView.frame = view.bounds
         favouritesTableView.dataSource = self
+        favouritesTableView.delegate = self
+        favouritesTableView.register(FavouriteTableViewCell.self, forCellReuseIdentifier: FavouriteTableViewCell.identifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        favourites = realm.objects(PlayerObject.self)
         favouritesTableView.reloadData()
     }
+    
+    private func presentModal(_ indexPath: IndexPath) {
+        let viewController = EditingViewController()
+        viewController.delegate = self
+        viewController.player = realmManager.favourites.reversed()[indexPath.row]
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationController?.title = "Edit message"
+        viewController.commentTextView.text = realmManager.favourites.reversed()[indexPath.row].comment
+        if let sheet = navigationController.sheetPresentationController {
+            sheet.detents = [.medium()]
+        }
+        let cancel = UIBarButtonItem(systemItem: .cancel)
+        navigationController.navigationItem.rightBarButtonItem = cancel
+        present(navigationController, animated: true)
+    }
+}
 
+extension FavouritesViewController: ReloadDelegate {
+    func reloadTableView() {
+        favouritesTableView.reloadData()
+    }
 }
 
 extension FavouritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        favourites.count 
+        realmManager.favourites.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = favourites.reversed()[indexPath.row].username
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FavouriteTableViewCell.identifier, for: indexPath) as? FavouriteTableViewCell else { return UITableViewCell() }
+        cell.configureCell(realmManager.favourites.reversed()[indexPath.row])
         return cell
     }
+    
+}
 
+extension FavouritesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        90
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            RealmManager.shared.delete(realmManager.favourites.reversed()[indexPath.row])
+            favouritesTableView.reloadData()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presentModal(indexPath)
+    }
 }

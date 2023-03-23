@@ -9,18 +9,18 @@ import Foundation
 import Alamofire
 
 protocol NetworkManagerProtocol {
-    func fetchData(_ nickname: String, completion: @escaping (Steam.DataClass.Player) -> Void)
+    func fetchData(_ nickname: String, completion: @escaping (Result<Steam.DataClass.Player?, Error>) -> Void)
 }
 
 struct NetworkManager: NetworkManagerProtocol {
     
-    func fetchData(_ nickname: String, completion: @escaping (Steam.DataClass.Player) -> Void) {
+    func fetchData(_ nickname: String, completion: @escaping (Result<Steam.DataClass.Player?, Error>) -> Void) {
         AF.request("https://playerdb.co/api/player/steam/\(nickname)").responseDecodable(of: Steam.self) { response in
             switch response.result {
             case .success(let value):
-                guard let data = value.data?.player else { return }
-                completion(data)
+                completion(.success(value.data?.player))
             case .failure(let error):
+                completion(.failure(error))
                 print(error)
             }
         }

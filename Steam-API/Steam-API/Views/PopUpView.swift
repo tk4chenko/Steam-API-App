@@ -13,94 +13,96 @@ protocol PopViewDelegate: AnyObject {
     func presentWebView(_ url: URL)
 }
 
-class PopUpView: UIView {
+final class PopUpView: UIView {
     
     weak var delegate: PopViewDelegate?
+    
+    var isSuccessed = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    var height: Int = 240
+    var realmManager = RealmManager.shared
+    
     private var player: Steam.DataClass.Player?
     
-    private let usernameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.textAlignment = .left
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        return label
-    }()
-    
-    private let commentTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Enter comment here"
-        textField.font = UIFont.systemFont(ofSize: 15)
-        textField.borderStyle = UITextField.BorderStyle.roundedRect
-        return textField
-    }()
-    
-    private let mainView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 20
-        view.clipsToBounds = true
-        view.addBlur(.systemThinMaterialDark)
-        return view
-    }()
-    
-    private lazy var closedButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.tintColor = .blue
-        button.layer.cornerRadius = 15
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var addToFavouritesButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemIndigo
-        button.layer.cornerRadius = 8
-        button.setTitle("Add to favorites", for: .normal)
-        button.addTarget(self, action: #selector(addToFavourites), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var openWebViewButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemIndigo
-        button.layer.cornerRadius = 8
-        button.setTitle("Open web view", for: .normal)
-        button.addTarget(self, action: #selector(openWebView(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    private let avatarImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.fill")
-        imageView.tintColor = .systemIndigo
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    private lazy var usernameLabel = createUsernameLabel()
+    private lazy var commentTextField = createCommentTextField()
+    private lazy var mainView = createMainView()
+    private lazy var closedButton = createClosedButton()
+    private lazy var addToFavouritesButton = createAddToFavouritesButton()
+    private lazy var openWebViewButton = createOpenWebViewButton()
+    private lazy var avatarImageView = createAvatarImageView()
     
     override init(frame: CGRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 300, height: 240))
+        super.init(frame: .zero)
+        commentTextField.delegate = self
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupConstraints()
+    }
+    
+    private func addButtonsActions() {
+        closedButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        addToFavouritesButton.addTarget(self, action: #selector(addToFavourites(_:)), for: .touchUpInside)
+        openWebViewButton.addTarget(self, action: #selector(openWebView(_:)), for: .touchUpInside)
+        addToFavouritesButton.setTitle("Add to favorites", for: .normal)
+        addToFavouritesButton.setTitle("Remove from favorites", for: .selected)
+    }
+    
+    private func checkIsFavorite() {
+        for player in realmManager.favourites {
+            if player.id == self.player?.id {
+                addToFavouritesButton.isSelected = true
+                return
+            } else {
+                addToFavouritesButton.isSelected = false
+            }
+        }
+    }
+    
+    func configure(_ player: Steam.DataClass.Player?) {
+        if let myPlayer = player {
+            isSuccessed = true
+            self.player = myPlayer
+            guard let url = URL(string: myPlayer.avatar ?? "") else { return }
+            usernameLabel.text = myPlayer.username
+            self.avatarImageView.sd_imageIndicator = SDWebImageActivityIndicator.white
+            self.avatarImageView.sd_setImage(with: url, completed: nil)
+            checkIsFavorite()
+            addButtonsActions()
+        } else {
+            isSuccessed = false
+            usernameLabel.text = "There is no such player."
+            commentTextField.isHidden = true
+            openWebViewButton.isHidden = true
+            addToFavouritesButton.isHidden = true
+        }
+    }
+    
     @objc private func buttonAction(_ sender: UIButton) {
         delegate?.animateOut()
     }
     
-    @objc private func addToFavourites() {
-        print(commentTextField.text ?? "")
-        guard let player = self.player else { return }
-        RealmManager.shared.save(player)
+    @objc private func addToFavourites(_ sender: UIButton) {
+        guard var player = self.player else { return }
+        player.comment = commentTextField.text
+        switch sender.isSelected {
+        case true:
+            guard let realmPlayer = realmManager.realm.object(ofType: PlayerObject.self, forPrimaryKey: player.id) else { return }
+            realmManager.delete(realmPlayer)
+        case false:
+            realmManager.save(player)
+        }
         delegate?.animateOut()
     }
     
@@ -111,62 +113,79 @@ class PopUpView: UIView {
         }
         delegate?.animateOut()
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setupConstraints()
+}
+
+extension PopUpView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false
     }
-    
-    func configure(_ player: Steam.DataClass.Player) {
-        self.player = player
-        usernameLabel.text = player.username
-        guard let url = URL(string: player.avatar ?? "") else { return }
-        self.avatarImageView.sd_imageIndicator = SDWebImageActivityIndicator.white
-        self.avatarImageView.sd_setImage(with: url, completed: nil)
-    }
-    
+}
+
+extension PopUpView {
     private func setupConstraints() {
         self.addSubview(mainView)
-        mainView.addSubview(avatarImageView)
-        mainView.addSubview(usernameLabel)
-        mainView.addSubview(closedButton)
-        mainView.addSubview(addToFavouritesButton)
-        mainView.addSubview(openWebViewButton)
-        mainView.addSubview(commentTextField)
-        NSLayoutConstraint.activate([
+        mainView.addSubviews([avatarImageView, usernameLabel, closedButton, addToFavouritesButton, openWebViewButton, commentTextField])
+        var heightConstant: CGFloat = 0
+        if isSuccessed {
+            heightConstant = 240
+        } else {
+            heightConstant = 80
+        }
+        let selfConstraints = [
+            self.widthAnchor.constraint(equalToConstant: 300),
+            self.heightAnchor.constraint(equalToConstant: heightConstant),
+            self.centerXAnchor.constraint(equalTo: self.superview!.centerXAnchor),
+            self.centerYAnchor.constraint(equalTo: self.superview!.centerYAnchor),
+        ]
+        let mainViewConstraints = [
             mainView.topAnchor.constraint(equalTo: topAnchor),
             mainView.leadingAnchor.constraint(equalTo: leadingAnchor),
             mainView.bottomAnchor.constraint(equalTo: bottomAnchor),
             mainView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
+        ]
+        let avatarImageViewConstraints = [
             avatarImageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
             avatarImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
             avatarImageView.widthAnchor.constraint(equalToConstant: 40),
             avatarImageView.heightAnchor.constraint(equalToConstant: 40),
-            
+        ]
+        let commentTextFieldConstraints = [
             commentTextField.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20),
             commentTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
             commentTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
             commentTextField.heightAnchor.constraint(equalToConstant: 40),
-            
+        ]
+        let addToFavouritesButtonConstraints = [
             addToFavouritesButton.topAnchor.constraint(equalTo: commentTextField.bottomAnchor, constant: 12),
             addToFavouritesButton.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
             addToFavouritesButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
             addToFavouritesButton.heightAnchor.constraint(equalToConstant: 40),
-            
+        ]
+        let openWebViewButtonConstraints = [
             openWebViewButton.topAnchor.constraint(equalTo: addToFavouritesButton.bottomAnchor, constant: 12),
             openWebViewButton.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
             openWebViewButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
             openWebViewButton.heightAnchor.constraint(equalToConstant: 40),
-            
+        ]
+        let usernameLabelConstraints = [
             usernameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
-            usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 12),
+            usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 10),
             usernameLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor),
-            
+        ]
+        let closedButtonConstraints = [
             closedButton.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 12),
             closedButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -12),
             closedButton.widthAnchor.constraint(equalToConstant: 30),
             closedButton.heightAnchor.constraint(equalToConstant: 30),
-        ])
+        ]
+        NSLayoutConstraint.activate(mainViewConstraints)
+        NSLayoutConstraint.activate(avatarImageViewConstraints)
+        NSLayoutConstraint.activate(commentTextFieldConstraints)
+        NSLayoutConstraint.activate(addToFavouritesButtonConstraints)
+        NSLayoutConstraint.activate(openWebViewButtonConstraints)
+        NSLayoutConstraint.activate(usernameLabelConstraints)
+        NSLayoutConstraint.activate(closedButtonConstraints)
+        NSLayoutConstraint.activate(selfConstraints)
     }
 }

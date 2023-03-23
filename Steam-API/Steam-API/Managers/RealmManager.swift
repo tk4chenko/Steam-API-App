@@ -8,11 +8,15 @@
 import Foundation
 import RealmSwift
 
-class RealmManager {
+final class RealmManager {
     
-    static var shared = RealmManager()
+    static let shared = RealmManager()
     
     let realm = try! Realm()
+    
+    var favourites: Results<PlayerObject>! {
+        return realm.objects(PlayerObject.self)
+    }
     
     private init() {}
     
@@ -22,10 +26,33 @@ class RealmManager {
         playerObject.username = player.username
         playerObject.avatar = player.avatar
         playerObject.comment = player.comment
-        
-        try! realm.write {
-            realm.add(playerObject, update: .all)
+        do {
+            try realm.write {
+                realm.add(playerObject, update: .all)
+            }
+        } catch {
+            print("Error: \(error.localizedDescription)")
         }
     }
     
+    func delete(_ player: PlayerObject) {
+        do {
+            try realm.write {
+                realm.delete(player)
+            }
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func changeComment(_ object: PlayerObject, _ comment: String) {
+        do {
+            try realm.write {
+                object.comment = comment
+                realm.add(object, update: .modified)
+            }
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
 }

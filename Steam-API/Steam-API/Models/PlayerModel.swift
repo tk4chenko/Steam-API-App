@@ -22,7 +22,7 @@ extension Steam {
 
 extension Steam.DataClass {
     struct Player: Decodable {
-        let comment: String?
+        var comment: String?
         let meta: Meta?
         let id: String?
         let avatar: String?

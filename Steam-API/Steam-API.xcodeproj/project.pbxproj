@@ -10,7 +10,6 @@
 		043CF34A29C9C9AC00F98489 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CF34929C9C9AC00F98489 /* AppDelegate.swift */; };
 		043CF34C29C9C9AC00F98489 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CF34B29C9C9AC00F98489 /* SceneDelegate.swift */; };
 		043CF34E29C9C9AC00F98489 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CF34D29C9C9AC00F98489 /* SearchViewController.swift */; };
-		043CF35129C9C9AC00F98489 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 043CF34F29C9C9AC00F98489 /* Main.storyboard */; };
 		043CF35329C9C9AD00F98489 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 043CF35229C9C9AD00F98489 /* Assets.xcassets */; };
 		043CF35629C9C9AD00F98489 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 043CF35429C9C9AD00F98489 /* LaunchScreen.storyboard */; };
 		043CF35F29C9C9D400F98489 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 043CF35E29C9C9D400F98489 /* Alamofire */; };
@@ -26,7 +25,9 @@
 		043CF38229CA302500F98489 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 043CF38129CA302500F98489 /* Realm */; };
 		043CF38429CA302500F98489 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 043CF38329CA302500F98489 /* RealmSwift */; };
 		043CF38629CA359300F98489 /* PlayerRealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CF38529CA359300F98489 /* PlayerRealmModel.swift */; };
-		043CF38C29CA5C9500F98489 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CF38B29CA5C9500F98489 /* UIColor + Extension.swift */; };
+		04D20CA629CB159D001C8097 /* PopUpView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D20CA529CB159D001C8097 /* PopUpView + Extension.swift */; };
+		04D20CA829CB205E001C8097 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D20CA729CB205E001C8097 /* Main.storyboard */; };
+		04D20CAA29CB5ABE001C8097 /* EditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D20CA929CB5ABE001C8097 /* EditingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +35,6 @@
 		043CF34929C9C9AC00F98489 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		043CF34B29C9C9AC00F98489 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		043CF34D29C9C9AC00F98489 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		043CF35029C9C9AC00F98489 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		043CF35229C9C9AD00F98489 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		043CF35529C9C9AD00F98489 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		043CF35729C9C9AD00F98489 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,7 +47,9 @@
 		043CF37C29CA18B100F98489 /* FavouriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTableViewCell.swift; sourceTree = "<group>"; };
 		043CF37E29CA2D5B00F98489 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		043CF38529CA359300F98489 /* PlayerRealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRealmModel.swift; sourceTree = "<group>"; };
-		043CF38B29CA5C9500F98489 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
+		04D20CA529CB159D001C8097 /* PopUpView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PopUpView + Extension.swift"; sourceTree = "<group>"; };
+		04D20CA729CB205E001C8097 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		04D20CA929CB5ABE001C8097 /* EditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,8 +93,8 @@
 				043CF38829CA3AD400F98489 /* Controllers */,
 				043CF38E29CA5EEB00F98489 /* Views */,
 				043CF38A29CA5C7600F98489 /* Extension */,
-				043CF34F29C9C9AC00F98489 /* Main.storyboard */,
 				043CF35229C9C9AD00F98489 /* Assets.xcassets */,
+				04D20CA729CB205E001C8097 /* Main.storyboard */,
 				043CF35429C9C9AD00F98489 /* LaunchScreen.storyboard */,
 				043CF35729C9C9AD00F98489 /* Info.plist */,
 			);
@@ -114,6 +116,7 @@
 				043CF34D29C9C9AC00F98489 /* SearchViewController.swift */,
 				043CF37429C9FD7200F98489 /* WebViewController.swift */,
 				043CF37829CA12A100F98489 /* FavouritesViewController.swift */,
+				04D20CA929CB5ABE001C8097 /* EditingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -131,7 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				043CF37629CA04A900F98489 /* UIView + Extension.swift */,
-				043CF38B29CA5C9500F98489 /* UIColor + Extension.swift */,
+				04D20CA529CB159D001C8097 /* PopUpView + Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -222,9 +225,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D20CA829CB205E001C8097 /* Main.storyboard in Resources */,
 				043CF35629C9C9AD00F98489 /* LaunchScreen.storyboard in Resources */,
 				043CF35329C9C9AD00F98489 /* Assets.xcassets in Resources */,
-				043CF35129C9C9AC00F98489 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +241,7 @@
 				043CF37929CA12A100F98489 /* FavouritesViewController.swift in Sources */,
 				043CF36329C9CAA300F98489 /* PlayerModel.swift in Sources */,
 				043CF37F29CA2D5B00F98489 /* RealmManager.swift in Sources */,
-				043CF38C29CA5C9500F98489 /* UIColor + Extension.swift in Sources */,
+				04D20CA629CB159D001C8097 /* PopUpView + Extension.swift in Sources */,
 				043CF36129C9C9E700F98489 /* NetworkManager.swift in Sources */,
 				043CF37D29CA18B100F98489 /* FavouriteTableViewCell.swift in Sources */,
 				043CF34E29C9C9AC00F98489 /* SearchViewController.swift in Sources */,
@@ -247,6 +250,7 @@
 				043CF37529C9FD7200F98489 /* WebViewController.swift in Sources */,
 				043CF38629CA359300F98489 /* PlayerRealmModel.swift in Sources */,
 				043CF36829C9D46000F98489 /* PopUpView.swift in Sources */,
+				04D20CAA29CB5ABE001C8097 /* EditingViewController.swift in Sources */,
 				043CF34C29C9C9AC00F98489 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,14 +258,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		043CF34F29C9C9AC00F98489 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				043CF35029C9C9AC00F98489 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		043CF35429C9C9AD00F98489 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
